@@ -14,13 +14,14 @@
 	<div class="site-wrapper">
 		<header class="site-header">
 			<div class="row site-header-inner">
-				<div class="site-header-branding">
-					<h1 class="site-title"><a href="/index.html">Job Offers</a></h1>
-				</div>
+                <div id="header_logo">
+                    <a href="/" title="logo"> <img class="site-header-branding" src="/jobs/img/logo.png" alt="logo" width="300" height="80"> </a>
+                </div>
+
 				<nav class="site-header-navigation">
 					<ul class="menu">
 						<li class="menu-item current-menu-item">
-							<a href="/index.html">Home</a>					
+							<a href="/index.php">Home</a>
 						</li>
 						<li class="menu-item">
 							<a href="/register.html">Register</a>
