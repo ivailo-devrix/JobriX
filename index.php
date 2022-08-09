@@ -1,5 +1,5 @@
 <?php
-require_once (dirname(__FILE__).'/theme/header.php');
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
 ?>
 
         <section class="section-fullwidth section-jobs-preview">
@@ -146,4 +146,4 @@ require_once (dirname(__FILE__).'/theme/header.php');
                 </div>
             </div>
         </section>
-<?php require_once (dirname(__FILE__).'/theme/footer.php') ?>
+<?php require_once (dirname(__FILE__).'/includes/theme-compat/footer.php') ?>

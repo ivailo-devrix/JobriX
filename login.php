@@ -1,4 +1,4 @@
-<?php require_once (dirname(__FILE__).'/theme/header.php') ?>
+<?php require_once (dirname(__FILE__).'/includes/theme-compat/header.php') ?>
 			<section class="section-fullwidth section-login">
 				<div class="row">	
 					<div class="flex-container centered-vertically centered-horizontally">
@@ -22,4 +22,4 @@
 					</div>
 				</div>
 			</section>
-<?php require_once (dirname(__FILE__).'/theme/footer.php') ?>
+<?php require_once (dirname(__FILE__).'/includes/theme-compat/footer.php') ?>

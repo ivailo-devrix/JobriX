@@ -1,7 +1,7 @@
 <?php
 //require_once (dirname(__FILE__).'/config/config.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/config/config.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/system/urls.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/urls.php');
 
 ?>
 
@@ -14,8 +14,8 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/system/urls.php');
     <title>Jobs</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
 
-    <link rel="stylesheet" href="./theme/css/master.css">
-    <?php echo "<link rel=\"stylesheet\" href=\"$HTTP_DOMAIN/theme/css/master.css\">"; ?>
+
+    <?php echo "<link rel=\"stylesheet\" href=\"$HTTP_DOMAIN/assets/css/master.css\">"; ?>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>

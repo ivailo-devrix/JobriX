@@ -1,4 +1,4 @@
-<?php require_once (dirname(__FILE__).'/theme/header.php') ?>
+<?php require_once (dirname(__FILE__).'/includes/theme-compat/header.php') ?>
 			<section class="section-fullwidth">
 				<div class="row">
 					<div class="job-single">
@@ -85,4 +85,4 @@
 					</ul>
 				</div>
 			</section>
-<?php require_once (dirname(__FILE__).'/theme/footer.php') ?>
+<?php require_once (dirname(__FILE__).'/includes/theme-compat/footer.php') ?>
