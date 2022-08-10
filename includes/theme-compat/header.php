@@ -1,8 +1,8 @@
 <?php
 //require_once (dirname(__FILE__).'/config/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/urls.php');
-
+require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/db-connect.php');
 ?>
 
 <!DOCTYPE html>
