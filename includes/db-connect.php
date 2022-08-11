@@ -31,10 +31,8 @@ function close_db_conn($conn){
 //return sql result
 function db_sql_run($sql){
     $conn = open_db_conn();
-
     $result = mysqli_query($conn, $sql);
 
-    close_db_conn($conn);
     return $result;
 }
 
