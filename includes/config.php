@@ -1,16 +1,14 @@
 <?php
-const SSL_ENABLED = true;
-const BASE_URL = '/test/';
 
-const DB_NAME = 'joobs_v_3_0';
-const DB_USER = 'root';
-const DB_PASSWORD = '';
-const DB_HOST = 'localhost';
-
-const IMAGE_PATH = 'img/company-logo/';
-const DOC_UPLOAD_PATH = 'uploads/';
-
-date_default_timezone_set('Europe/Sofia');
+define('DB_NAME', 'joobs_v_3_0');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
+define('DB_HOST', 'localhost');
 
 
+define('BASE_URL', 'http://localhost');
+define('IMAGE_PATH', '/img/company/');
+define('DOC_UPLOAD_PATH', '/upload/');
 
+
+define('DEF_TIME_ZONE', 'Europe/Sofia');
