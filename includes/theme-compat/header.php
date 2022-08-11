@@ -1,8 +1,7 @@
 <?php
-//require_once (dirname(__FILE__).'/config/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/db-connect.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +14,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/db-connect.php');
     <link rel="preconnect" href="https://fonts.gstatic.com">
 
 
-    <?php echo "<link rel=\"stylesheet\" href=\"$HTTP_DOMAIN/assets/css/master.css\">"; ?>
+    <?php echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/master.css">'; ?>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
