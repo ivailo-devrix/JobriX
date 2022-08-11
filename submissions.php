@@ -75,4 +75,6 @@
 					</div>
 				</div>
 			</section>
-<?php require_once (dirname(__FILE__).'/includes/theme-compat/footer.php') ?>
+<?php
+require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php');
+?>
