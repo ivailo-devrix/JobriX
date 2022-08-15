@@ -27,7 +27,7 @@ $last_name = $_POST['last_name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 $r_password = $_POST['r_password'];
-$phone = $_POST['phone'];
+$input_phone = $_POST['phone'];
 $company_name = $_POST['company_name'];
 $company_site = $_POST['company_site'];
 $company_description = $_POST['company_description'];
@@ -58,13 +58,20 @@ if (!empty($email)) {
 }
 
 //set _SESSION valid Phone number
-if (!preg_match('/^(\+359|0)\s?8(\d{2}\s\d{3}\d{3}|[789]\d{7})$/', $phone)) {
+$phone = extract_valid_phone($input_phone);
+if (empty($valid_phone)) {
     $errors[] = "Phone is not valid! Requested format 0891234567 or +359891234567";
+
+    //delete previous valid record
+    //required for prompt client to re-enter valid data when editing
+    $_SESSION['input_phone'] = '';
 } else {
-    $phone = str_replace('+359', 0, $phone);
     $_SESSION['phone'] = $phone;
+    $_SESSION['input_phone'] = $input_phone;
 }
 
+
+//set _SESSION valid Phone number
 if (!empty($company_site)) {
     if (!extract_valid_domaine($company_site)) {
         $errors[] = "Company site URL is not valid";
