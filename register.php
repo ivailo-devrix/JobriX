@@ -35,8 +35,8 @@
                                     <input type="password" name="r_password" placeholder="Repeat Password*" required>
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <input type="text" name="phone" placeholder="Phone Number" <?php if (!empty($_SESSION['phone'])) {
-                                        echo 'value="' . $_SESSION['phone'] . '" style="color: #3c71fe;" ';
+                                    <input type="text" name="phone" placeholder="Phone Number" <?php if (!empty($_SESSION['input_phone'])) {
+                                        echo 'value="' . $_SESSION['input_phone'] . '" style="color: #3c71fe;" ';
                                     } ?>
                                     >
                                 </div>
