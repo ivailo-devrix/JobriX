@@ -1,4 +1,6 @@
-<?php require_once(dirname(__FILE__) . '/includes/theme-compat/header.php') ?>
+<?php require_once(dirname(__FILE__) . '/includes/theme-compat/header.php');
+var_dump($_SESSION);
+?>
     <section class="section-fullwidth">
         <div class="row">
             <div class="flex-container centered-vertically centered-horizontally">
@@ -56,9 +58,13 @@
                                     >
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <textarea name="company_description" placeholder="Description" <?php if (!empty($_SESSION['description'])) {
-                                        echo 'value="' . $_SESSION['description'] . '" style="color: #3c71fe;" ';
-                                    } ?>></textarea>
+                                    <textarea name="company_description" placeholder="Description" <?php if (!empty($_SESSION['company_description'])) {
+                                        echo  '" style="color: #3c71fe;" ';
+                                    } ?>>
+                                    <?php if (!empty($_SESSION['company_description'])) {
+                                        echo  $_SESSION['company_description'] ;}
+                                    ?>
+                                    </textarea>
                                 </div>
                             </div>
                         </div>
