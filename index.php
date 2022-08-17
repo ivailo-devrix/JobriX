@@ -1,5 +1,28 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
+
+
+$sql = "SELECT COUNT(status)
+FROM jobs
+WHERE status = 'active'; ";
+
+$result = db_sql_run($sql);
+$result = mysqli_fetch_assoc($result);
+$active_jobs = $result['COUNT(status)'];
+
+$start_index = 0;
+
+
+function jobs_start_index_for_page($page)
+{
+    return ($page * JOBS_PER_PAGE) - JOBS_PER_PAGE;
+}
+
+if (!empty($_GET['page'])) {
+    $start_index = jobs_start_index_for_page($_GET['page']);
+}
+
+
 ?>
     <section class="section-fullwidth section-jobs-preview">
         <div class="row">
@@ -20,13 +43,16 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
                     <a href="#" class="list-item-link">Marketing</a>
                 </li>
             </ul>
+
+
             <div class="flex-container centered-vertically">
                 <div class="search-form-wrapper">
-                    <div class="search-form-field">
-                        <label>
-                            <input class="search-form-input" type="text" value="" placeholder="Search…" name="search">
-                        </label>
-                    </div>
+                    <form class="example" method="GET">
+                        <div class="search-form-field">
+                            <input class="search-form-input" type="text"
+                                   value="<?php if (isset($_GET['search'])) echo $_GET['search']; ?>"
+                                   placeholder="Search…" name="search">
+                        </div>
                 </div>
                 <div class="filter-wrapper">
                     <div class="filter-field-wrapper">
@@ -37,13 +63,22 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
                             <option value="4">Type</option>
                         </select>
                     </div>
+                    </form>
                 </div>
             </div>
 
 
             <?php
 
-            $sql = "SELECT jobs.*, user.company_name, user.company_site FROM jobs JOIN user ON user.id_user = jobs.id_user where status = 'active'";
+            // $sql = "SELECT * FROM `jobs` WHERE ( CONVERT(`title` USING utf8) LIKE '%продавач%' AND `status` = 'active') LIMIT 0,2";
+            if (!empty($_GET['search'])) {
+                $search = $_GET['search'];
+                $sql = "SELECT jobs.*, user.company_name, user.company_site FROM `jobs` JOIN user ON user.id_user = jobs.id_user WHERE ( CONVERT(`title` USING utf8) LIKE '%" . $search . "%' AND `status` = 'active') LIMIT 0,20";
+            } else {
+                $sql = "SELECT jobs.*, user.company_name, user.company_site FROM jobs JOIN user ON user.id_user = jobs.id_user where status = 'active' LIMIT " . $start_index . "," . JOBS_PER_PAGE;
+            }
+
+
             $result = db_sql_run($sql);
 
             if (mysqli_num_rows($result) > 0) {
@@ -96,15 +131,29 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
                 ?>
 
             </ul>
-            <div class="jobs-pagination-wrapper">
-                <div class="nav-links">
-                    <a class="page-numbers current">1</a>
-                    <a class="page-numbers">2</a>
-                    <a class="page-numbers">3</a>
-                    <a class="page-numbers">4</a>
-                    <a class="page-numbers">5</a>
-                </div>
-            </div>
+            <?php if (empty($_GET['search'])) {
+                //hide pagination on search
+                ?>
+                <div class="jobs-pagination-wrapper">
+                    <div class="nav-links">
+                        <?php
+                        $las_page_num = ceil(($active_jobs / JOBS_PER_PAGE));
+
+                        for ($i = 1; $i <= $las_page_num; $i++) {
+                            $active = '';
+
+                            if (!empty($_GET['page'])) {
+                                if ($_GET['page'] == $i) {
+                                    $active = ' current';
+                                }
+                            } elseif (1 == $i) {
+                                $active = ' current';
+                            }
+                            echo '<a class="page-numbers' . $active . '" href="index.php?page=' . $i . '">' . $i . '</a>';
+                        }
+                        ?>
+                    </div>
+                </div> <?php } ?>
         </div>
     </section>
 <?php
