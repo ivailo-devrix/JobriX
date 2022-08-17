@@ -19,7 +19,7 @@ function date_difference($date_1, $difference_format = '%a')
  *
  * @param string $domain_or_url Accepts url address or domain.
  *
- * @return string With the valid domain if domain is valid and boolean 'FALSE' if the domain is not valid.
+ * @return bool|string With the valid domain if domain is valid and boolean 'FALSE' if the domain is not valid.
  */
 function extract_valid_domaine($domain_or_url)
 {

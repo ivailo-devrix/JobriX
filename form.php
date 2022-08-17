@@ -70,16 +70,16 @@ if (!empty($email)) {
 }
 
 //set _SESSION valid Phone number
-$phone = extract_valid_phone($input_phone);
-if (empty($phone)) {
+$valid_phone = extract_valid_phone($input_phone);
+if (empty($valid_phone)) {
     $errors[] = "Phone is not valid! Requested format 0891234567 or +359891234567";
 
     //delete previous valid record
     //required for prompt client to re-enter valid data when editing
     $_SESSION['input_phone'] = '';
 } else {
-    $valid_phone = $phone;
-    $_SESSION['phone'] = $phone;
+
+    $_SESSION['phone'] = $valid_phone;
     $_SESSION['input_phone'] = $input_phone;
 }
 
@@ -100,7 +100,6 @@ $reg1 = "/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*[,#?!=@%&\^\$\*\)\(\_\.\'\"\
 
 //check
 if (preg_match($reg1, $password) && strlen($password) >= 8) {
-    var_dump(preg_match($reg1, $password));
     if ($password !== $r_password) {
         $errors[] = "Passwords do NOT match";
     } else {
@@ -123,37 +122,38 @@ if (!empty($_SESSION['email'])) {
 $_SESSION['errors'] = $errors;
 
 
-//if there are errors it returns the user to enter the incorrect fields
-if (!empty($errors)) {
+if (!empty($errors)) {//if there are errors it returns the user to enter the incorrect fields
+    $_SESSION['is_admin'] = false; //erase admin privilege
     header('Location: ' . BASE_URL . '/register.php');
-}
+} else {//write standardized data to DB
+    $sql = "INSERT INTO user (first_name, last_name, email, password, phone, is_admin, company_name, company_image, company_description, company_site)
+    VALUES ('$first_name', '$last_name', '$valid_mail','$password_hash','$valid_phone','$is_admin','$company_name','$company_image','$company_description','$valid_sait')";
 
-
-//write standardized data to DB
-$sql = "INSERT INTO user (first_name, last_name, email, password, phone, is_admin, company_name, company_image, company_description, company_site)
-VALUES ('$first_name', '$last_name', '$valid_mail','$password_hash','$valid_phone','$is_admin','$company_name','$company_image','$company_description','$valid_sait')";
-
-$result = db_sql_run($sql);
-
-if (!$result) {//if user with this mail exist
-    //log error
-    $errors[] = "A user with this mail: $valid_mail already exists";
-    $_SESSION['errors'] = $errors;
-
-    //erase exist mail
-    $_SESSION['email'] = '';
-
-    //back to register form
-    header('Location: ' . BASE_URL . '/register.php');
-} else {//get new user id
-    $sql = "SELECT id_user FROM user where email = '$valid_mail'";
     $result = db_sql_run($sql);
-    $arr_result = mysqli_fetch_assoc($result);
 
-    //saving the user ID so that the user does not have to log in again
-    $_SESSION['id_user'] = $arr_result['id_user'];
+    if (!$result) {//if user with this mail exist
+        //log error
+        $errors[] = "A user with this mail: $valid_mail already exists";
+        $_SESSION['errors'] = $errors;
 
-    //redirect to home page
-    header('Location: ' . BASE_URL);
+        $_SESSION['email'] = ''; //erase exist mail
+        $_SESSION['is_admin'] = false; //erase admin privilege
+
+        //back to register form
+        header('Location: ' . BASE_URL . '/register.php');
+    } else {//get new user id
+        $sql = "SELECT id_user FROM user where email = '$valid_mail'";
+        $result = db_sql_run($sql);
+        $arr_result = mysqli_fetch_assoc($result);
+
+        //saving the user ID so that the user does not have to log in again
+        $_SESSION['id_user'] = $arr_result['id_user'];
+
+        //redirect to home page
+        header('Location: ' . BASE_URL);
+    }
 }
+
+
+
 
