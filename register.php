@@ -3,6 +3,8 @@ require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary 
 
 //params for include template
 $meta_title = "Registration Forms | Jobrix.tk";
+$page_name = 'register';
+
 
 //header template include
 require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
