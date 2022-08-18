@@ -13,8 +13,6 @@ if (empty($meta_title)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $meta_title; ?></title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-
-
     <?php echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/master.css">'; ?>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 </head>

@@ -79,5 +79,4 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
         </div>
     </section>
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php');
-?>
+require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php'); ?>
