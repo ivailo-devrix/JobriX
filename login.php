@@ -36,7 +36,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
         if (password_verify($password, $db_password)) {
             $correct_password = true;
             $_SESSION['id_user'] = $result['id_user'];
-            $_SESSION['firs_name'] = $result['first_name'];
+            $_SESSION['first_name'] = $result['first_name'];
             $_SESSION['last_name'] = $result['last_name'];
             $_SESSION['email'] = $result['email'];
             $_SESSION['is_admin'] = $result['is_admin'];
@@ -47,6 +47,10 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
             if (!empty($result['company_site'])) {
                 $_SESSION['company_site'] = $result['company_site'];
             }
+            if (!empty($result['company_description'])) {
+                $_SESSION['company_description'] = $result['company_description'];
+            }
+
             header('Location: ' . BASE_URL);
         }
     }
@@ -62,10 +66,10 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
                     </div>
                     <form method="post">
                         <div class="form-field-wrapper">
-                            <input type="email" name="email" placeholder="Email"/>
+                            <input type="email" name="email" autocomplete="username" placeholder="Email"/>
                         </div>
                         <div class="form-field-wrapper">
-                            <input type="password" name="password" placeholder="Password"/>
+                            <input type="password" name="password" autocomplete="current-password" placeholder="Password"/>
                         </div>
                         <?php if (isset($password)) {
                             if (!$correct_password) { ?>
