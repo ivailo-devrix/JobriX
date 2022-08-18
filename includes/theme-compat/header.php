@@ -1,4 +1,12 @@
 <?php
+// server should keep session data for AT LEAST 1 hour
+ini_set('session.gc_maxlifetime', 3600);
+
+// each client should remember their session id for EXACTLY 1 hour
+session_set_cookie_params(3600);
+
+session_start();
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/db-connect.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
@@ -12,8 +20,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobs</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-
-
     <?php echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/master.css">'; ?>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
