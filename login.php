@@ -1,8 +1,20 @@
-<?php require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
+<?php
+require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
+
+//params for include template
+$meta_title = "Login page | Jobrix.tk";
+$page_name = 'login';
+
+//header template include
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
+
+if (!empty($_SESSION['id_user'])) {
+    header('Location: ' . BASE_URL);
+}
 
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
-    if (empty($_SESSION['user_id'])) {
+    if (empty($_SESSION['id_user'])) {
         $correct_password = false;
     } else {
         header('Location: ' . BASE_URL);
@@ -23,10 +35,11 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
         if (password_verify($password, $db_password)) {
             $correct_password = true;
-            $_SESSION['user_id'] = $result['id_user'];
+            $_SESSION['id_user'] = $result['id_user'];
             $_SESSION['firs_name'] = $result['first_name'];
             $_SESSION['last_name'] = $result['last_name'];
             $_SESSION['email'] = $result['email'];
+            $_SESSION['is_admin'] = $result['is_admin'];
             $_SESSION['phone'] = $result['phone'];
             if (!empty($result['company_name'])) {
                 $_SESSION['company_name'] = $result['company_name'];
@@ -34,9 +47,11 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
             if (!empty($result['company_site'])) {
                 $_SESSION['company_site'] = $result['company_site'];
             }
+            header('Location: ' . BASE_URL);
         }
     }
 }
+
 ?>
     <section class="section-fullwidth section-login">
         <div class="row">
@@ -56,9 +71,6 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
                             if (!$correct_password) { ?>
                                 <p class="error" style="color: red;"><?php echo "Wrong password or Email"; ?></p>
                             <?php }
-                        }
-                        if (!empty($_SESSION['id_user'])) {
-                            header('Location: ' . BASE_URL);
                         }
                         ?>
                         <button type="submit" class="button">

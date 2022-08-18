@@ -1,4 +1,13 @@
-<?php require_once (dirname(__FILE__).'/includes/theme-compat/header.php') ?>
+<?php
+require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
+
+//params for include template
+$meta_title = "Dashboard | Jobrix.tk";
+$page_name = 'dashboard';
+
+//header template include
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
+?>
 			<section class="section-fullwidth section-jobs-dashboard">
 				<div class="row">
 					<div class="jobs-dashboard-header flex-container centered-vertically justified-horizontally">

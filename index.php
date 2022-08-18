@@ -1,5 +1,35 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
+require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
+
+//params for include template
+$meta_title = "Home Page | JobriX.tk";
+$page_name = 'home';
+
+//header template include
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
+
+
+
+$sql = "SELECT COUNT(status)
+FROM jobs
+WHERE status = 'active'; ";
+
+$result = db_sql_run($sql);
+$result = mysqli_fetch_assoc($result);
+$active_jobs = $result['COUNT(status)'];
+
+$start_index = 0;
+
+
+function jobs_start_index_for_page($page)
+{
+    return ($page * JOBS_PER_PAGE) - JOBS_PER_PAGE;
+}
+
+if (!empty($_GET['page'])) {
+    $start_index = jobs_start_index_for_page($_GET['page']);
+}
+
 ?>
     <section class="section-fullwidth section-jobs-preview">
         <div class="row">

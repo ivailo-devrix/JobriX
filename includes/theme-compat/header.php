@@ -1,15 +1,14 @@
 <?php
-// server should keep session data for AT LEAST 1 hour
-ini_set('session.gc_maxlifetime', 3600);
+//Checking for variables coming from a previous scope where the given template was loaded
+if (empty($meta_title)) {
+    $meta_title = '';
+}
+if (empty($page_name)) {
+    $page_name = '';
+}
 
-// each client should remember their session id for EXACTLY 1 hour
-session_set_cookie_params(3600);
+var_dump($_SESSION);
 
-session_start();
-
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/db-connect.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
 ?>
 
 <!DOCTYPE html>
@@ -33,15 +32,30 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
             </div>
             <nav class="site-header-navigation">
                 <ul class="menu">
-                    <li class="menu-item current-menu-item">
+                    <li class="menu-item <?php if(isset($page_name) && $page_name == 'home'){ ?> current-menu-item <?php } ?>">
                         <a href="/index.php">Home</a>
                     </li>
+                    <?php if(isset($_SESSION['id_user'])){?>
+                        <?php if(isset($_SESSION['is_admin']) && $_SESSION['is_admin']){?>
+                    <li class="menu-item <?php if(isset($page_name) && $page_name == 'dashboard'){ ?> current-menu-item <?php } ?> ">
+                        <a href="/dashboard.php">Dashboard</a>
+                    </li>
+                        <?php } ?>
+                    <li class="menu-item <?php if(isset($page_name) && $page_name == 'profile'){ ?> current-menu-item <?php } ?>">
+                        <a href="/profile.php">My Profile</a>
+                    </li>
                     <li class="menu-item">
+                        <a href="/signout.php">Sign Out</a>
+                    </li>
+                    <?php } ?>
+                    <?php if(empty($_SESSION['id_user'])){ ?>
+                    <li class="menu-item <?php if(isset($page_name) && $page_name == 'register'){ ?> current-menu-item <?php } ?>">
                         <a href="/register.php">Register</a>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item <?php if(isset($page_name) && $page_name == 'login'){ ?> current-menu-item <?php } ?> ">
                         <a href="/login.php">Login</a>
                     </li>
+                    <?php } ?>
                 </ul>
             </nav>
             <button class="menu-toggle">
