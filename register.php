@@ -1,5 +1,11 @@
-<?php require_once(dirname(__FILE__) . '/includes/theme-compat/header.php');
-var_dump($_SESSION);
+<?php
+require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
+
+//params for include template
+$meta_title = "Registration Forms | Jobrix.tk";
+
+//header template include
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
 ?>
     <section class="section-fullwidth">
         <div class="row">
@@ -60,11 +66,9 @@ var_dump($_SESSION);
                                 <div class="form-field-wrapper">
                                     <textarea name="company_description" placeholder="Description" <?php if (!empty($_SESSION['company_description'])) {
                                         echo  '" style="color: #3c71fe;" ';
-                                    } ?>>
-                                    <?php if (!empty($_SESSION['company_description'])) {
+                                    } ?>><?php if (!empty($_SESSION['company_description'])) {
                                         echo  $_SESSION['company_description'] ;}
-                                    ?>
-                                    </textarea>
+                                    ?></textarea>
                                 </div>
                             </div>
                         </div>

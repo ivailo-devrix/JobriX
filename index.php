@@ -1,5 +1,11 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
+require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
+
+//params for include template
+$meta_title = "Home Page | JobriX.tk";
+
+//header template include
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
 
 
 

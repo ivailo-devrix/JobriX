@@ -1,4 +1,12 @@
-<?php require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php');
+<?php
+require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
+
+//params for include template
+$meta_title = "Login page | Jobrix.tk";
+
+//header template include
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
+
 
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
