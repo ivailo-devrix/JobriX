@@ -6,7 +6,29 @@ $meta_title = "Home Page | JobriX.tk";
 
 //header template include
 require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
-////////////////////////////////////////////
+
+
+$sql = "SELECT COUNT(status)
+FROM jobs
+WHERE status = 'active'; ";
+
+$result = db_sql_run($sql);
+$result = mysqli_fetch_assoc($result);
+$active_jobs = $result['COUNT(status)'];
+
+$start_index = 0;
+
+
+function jobs_start_index_for_page($page)
+{
+    return ($page * JOBS_PER_PAGE) - JOBS_PER_PAGE;
+}
+
+if (!empty($_GET['page'])) {
+    $start_index = jobs_start_index_for_page($_GET['page']);
+}
+
+
 ?>
     <section class="section-fullwidth section-jobs-preview">
         <div class="row">
@@ -47,10 +69,8 @@ require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
                 </div>
             </div>
 
-
             <?php
-
-            $sql = "SELECT jobs.*, user.company_name, user.company_site FROM jobs JOIN user ON user.id_user = jobs.id_user where status = 'active'";
+            $sql = "SELECT jobs.*, user.company_name, user.company_site FROM jobs JOIN user ON user.id_user = jobs.id_user where status = 'active' LIMIT " . $start_index . "," . JOBS_PER_PAGE;
             $result = db_sql_run($sql);
 
             if (mysqli_num_rows($result) > 0) {
@@ -105,11 +125,23 @@ require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
             </ul>
             <div class="jobs-pagination-wrapper">
                 <div class="nav-links">
-                    <a class="page-numbers current">1</a>
-                    <a class="page-numbers">2</a>
-                    <a class="page-numbers">3</a>
-                    <a class="page-numbers">4</a>
-                    <a class="page-numbers">5</a>
+                    <?php
+                    $las_page_num = round(($active_jobs / JOBS_PER_PAGE), 0); //7
+
+                    for ($i = 1; $i <= $las_page_num; $i++) {
+                        $active = '';
+
+                        if (!empty($_GET['page'])) {
+                            if ($_GET['page'] == $i) {
+                                $active = ' current';
+                            }
+                        } elseif (1 == $i) {
+                            $active = ' current';
+                        }
+                        echo '<a class="page-numbers' . $active . '" href="index.php?page=' . $i . '">' . $i . '</a>';
+                    }
+                    ?>
+
                 </div>
             </div>
         </div>
