@@ -22,7 +22,6 @@ if (!empty($_GET['page'])) {
     $start_index = jobs_start_index_for_page($_GET['page']);
 }
 
-
 ?>
     <section class="section-fullwidth section-jobs-preview">
         <div class="row">
@@ -66,7 +65,6 @@ if (!empty($_GET['page'])) {
                     </form>
                 </div>
             </div>
-
 
             <?php
 
