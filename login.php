@@ -36,21 +36,6 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
         if (password_verify($password, $db_password)) {
             $correct_password = true;
             $_SESSION['id_user'] = $result['id_user'];
-            $_SESSION['first_name'] = $result['first_name'];
-            $_SESSION['last_name'] = $result['last_name'];
-            $_SESSION['email'] = $result['email'];
-            $_SESSION['is_admin'] = $result['is_admin'];
-            $_SESSION['phone'] = $result['phone'];
-            if (!empty($result['company_name'])) {
-                $_SESSION['company_name'] = $result['company_name'];
-            }
-            if (!empty($result['company_site'])) {
-                $_SESSION['company_site'] = $result['company_site'];
-            }
-            if (!empty($result['company_description'])) {
-                $_SESSION['company_description'] = $result['company_description'];
-            }
-
             header('Location: ' . BASE_URL);
         }
     }
