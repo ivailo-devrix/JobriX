@@ -2,8 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/config.php');
 
 //open connection function  -  return connection
-function open_db_conn()
-{
+function open_db_conn() {
     $data_base = DB_NAME;
     $db_user_name = DB_USER;
     $db_password = DB_PASSWORD;
@@ -23,8 +22,7 @@ function open_db_conn()
 
 
 //Preventing SQL Injection Attacks in Postgres
-function db_sql_protect($sql, $params)
-{
+function db_sql_protect($sql, $params) {
     $p = '';
     foreach ($params as $param) {
         $p .= 's';
@@ -44,16 +42,14 @@ function db_sql_protect($sql, $params)
 
 
 //close connection function
-function close_db_conn($conn)
-{
+function close_db_conn($conn) {
     mysqli_close($conn);
     return null;
 }
 
 
 //return sql result
-function db_sql_run($sql)
-{
+function db_sql_run($sql) {
     $conn = open_db_conn();
     $result = mysqli_query($conn, $sql);
 
