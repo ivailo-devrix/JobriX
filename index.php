@@ -13,8 +13,7 @@ $active_jobs = $result['COUNT(status)'];
 $start_index = 0;
 
 
-function jobs_start_index_for_page($page)
-{
+function jobs_start_index_for_page($page) {
     return ($page * JOBS_PER_PAGE) - JOBS_PER_PAGE;
 }
 
@@ -120,7 +119,7 @@ if (!empty($_GET['page'])) {
                         </div>
                     </div>
                 </li>
-
+            </ul>
                 <?php
                 }
                 } else {
@@ -128,30 +127,15 @@ if (!empty($_GET['page'])) {
                 }
                 ?>
 
-            </ul>
-            <?php if (empty($_GET['search'])) {
-                //hide pagination on search
-                ?>
-                <div class="jobs-pagination-wrapper">
-                    <div class="nav-links">
-                        <?php
-                        $las_page_num = ceil(($active_jobs / JOBS_PER_PAGE));
 
-                        for ($i = 1; $i <= $las_page_num; $i++) {
-                            $active = '';
 
-                            if (!empty($_GET['page'])) {
-                                if ($_GET['page'] == $i) {
-                                    $active = ' current';
-                                }
-                            } elseif (1 == $i) {
-                                $active = ' current';
-                            }
-                            echo '<a class="page-numbers' . $active . '" href="index.php?page=' . $i . '">' . $i . '</a>';
-                        }
-                        ?>
-                    </div>
-                </div> <?php } ?>
+            <?php
+            $s_parameter = '';
+            if (!empty($_GET['search'])){
+	            $s_parameter = '?search=' . $_GET['search'];
+            }
+            $page_url = 'index.php' . $s_parameter;
+            pagination($active_jobs,$page_url); ?>
         </div>
     </section>
 <?php

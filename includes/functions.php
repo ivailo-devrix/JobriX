@@ -3,8 +3,7 @@
 date_default_timezone_set(DEF_TIME_ZONE);
 
 
-function date_difference($date_1, $difference_format = '%a')
-{
+function date_difference($date_1, $difference_format = '%a') {
     $datetime1 = date_create($date_1);
     $datetime2 = date_create();
 
@@ -21,8 +20,7 @@ function date_difference($date_1, $difference_format = '%a')
  *
  * @return bool|string With the valid domain if domain is valid and boolean 'FALSE' if the domain is not valid.
  */
-function extract_valid_domaine($domain_or_url)
-{
+function extract_valid_domaine($domain_or_url) {
     //extract domain from url
     $domain_or_url = trim($domain_or_url);
     $domain_or_url = str_replace(array('http://', 'https://'),'', $domain_or_url);
@@ -50,8 +48,7 @@ function extract_valid_domaine($domain_or_url)
  *
  * @return string With the valid Phone if Phone is valid and boolean 'FALSE' if the Phone is not valid.
  */
-function extract_valid_phone($phone)
-{
+function extract_valid_phone($phone) {
     //remove chars - / ( ) and space
     $phone = trim($phone);
     $phone = str_replace(array(' ', '(', ')', '-', '/', '\\'), '', $phone);
@@ -61,4 +58,42 @@ function extract_valid_phone($phone)
     } else {
         return false;
     }
+}
+
+
+function pagination( $number_of_items, $page_url ) {
+	$las_page_num = ceil( ( $number_of_items / JOBS_PER_PAGE ) );
+
+	$var = <<<EOD
+
+<div class="jobs-pagination-wrapper">
+	<div class="nav-links">
+EOD;
+	echo $var;
+
+	for ( $i = 1; $i <= $las_page_num; $i ++ ) {
+		$active = '';
+		if ( ! empty( $_GET['page'] ) ) {
+			if ( $_GET['page'] == $i ) {
+				$active = ' current';
+			}
+		} elseif ( 1 == $i ) {
+			$active = ' current';
+		}
+		if (!empty($_GET) && empty($_GET['page'])){
+			$concatenate = '&';
+		}
+		else{
+			$concatenate = '?';
+		}
+		echo '<a class="page-numbers' . $active . '" href="' . $page_url . $concatenate.'page=' . $i . '">' . $i . '</a>';
+	}
+
+	$var = <<<EOD
+
+</div>
+	</div>
+EOD;
+	echo $var;
+
 }
