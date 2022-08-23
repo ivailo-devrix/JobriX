@@ -42,8 +42,7 @@ foreach ( $row as $key => $value ) {
 $meta_title = $job['title'] . " | Jobrix.tk";
 
 //header template include
-require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' );
-?>
+require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
 <section class="section-fullwidth">
     <div class="row">
         <div class="job-single">
@@ -55,32 +54,24 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' );
                             <div class="job-meta">
 								<?php
 								if ( ! empty( $job['company_site'] ) ) { ?>
-                                    <a class="meta-company"
-                                       href="<?php echo 'http://' . $job['company_site'] ?>"><?php echo $job['company_name'] ?></a>
+                                    <a class="meta-company" href="
+                                       <?php echo 'http://' . $job['company_site'] ?>"><?php echo $job['company_name'] ?>
+                                    </a>
 								<?php } else {
 									echo $job['company_name'];
-								}
-								?>
+								} ?>
                                 <span class="meta-date">
-                                        <?php
-                                        if ( date_difference( $job['publication_date'] ) < 31 ) {
-	                                        echo "Posted " . date_difference( $job['publication_date'] ) . " days ago";
-                                        } else {
-	                                        echo "Posted over 1 month ago";
-                                        }
-                                        ?>
-                                    </span>
+                                    <?php echo date_difference( $job['publication_date'] ); ?>
+                                </span>
                             </div>
                             <div class="job-details">
-                                    <span class="job-location">
-                                        <?php
-                                        if ( ! empty( $job['jobs_location'] ) ) {
-	                                        echo "Job location: " . $job['jobs_location'];
-                                        } else {
-	                                        echo "No location specified";
-                                        }
-                                        ?>
-                                    </span>
+                                <span class="job-location">
+                                    <?php if ( ! empty( $job['jobs_location'] ) ) {
+	                                    echo "Job location: " . $job['jobs_location'];
+                                    } else {
+	                                    echo "No location specified";
+                                    } ?>
+                                </span>
                                 <span class="job-type">Contract staff:</span>
                                 <span class="job-price"><?php echo $row['salary']; ?> лв.</span>
                             </div>
@@ -107,16 +98,13 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' );
                     </div>
                 </div>
                 <a href="#" class="button button-wide">Apply now</a>
-				<?php
-				if ( ! empty( $job['company_site'] ) ) { ?>
+				<?php if ( ! empty( $job['company_site'] ) ) { ?>
                     <a href="<?php echo "http://" . $job['company_site']; ?>"
-                       target="_blank"><?php echo $job['company_site']; ?></a>
-				<?php }
-				?>
+                       target="_blank"><?php echo $job['company_site']; ?>
+                    </a>
+				<?php } ?>
             </aside>
         </div>
     </div>
 </section>
-<?php
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php' );
-?>
+<?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php' ); ?>

@@ -86,11 +86,7 @@ if (!empty($_GET['page'])) {
                         <div class="job-meta">
                             <a class="meta-company"
                                href="<?php echo BASE_URL . "/job-view.php?id=" . $row['id_jobs'] ?>"><?php echo $row['company_name']; ?></a>
-                            <span class="meta-date"><?php if (date_difference($row['publication_date']) < 31) {
-                                    echo "Posted " . date_difference($row['publication_date']) . " days ago";
-                                } else {
-                                    echo "Posted over 1 month ago";
-                                } ?></span>
+                            <span class="meta-date"><?php echo date_difference( $row['publication_date'] ); ?></span>
                         </div>
                         <div class="job-details">
                         <span class="job-location"><?php
