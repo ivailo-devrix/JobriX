@@ -77,9 +77,7 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
                             </div>
                         </header>
                         <div class="job-body">
-							<?php
-							echo $job['description'];
-							?>
+							<?php echo $job['description']; ?>
                         </div>
                     </div>
                 </div>
@@ -87,14 +85,12 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
             <aside class="job-secondary">
                 <div class="job-logo">
                     <div class="job-logo-box">
-						<?php
-						$img_file_logo = "./img/company/" . $job['id_user'] . ".jpg";
+						<?php $img_file_logo = "./img/company/" . $job['id_user'] . ".jpg";
 						if ( file_exists( $img_file_logo ) ) {
 							echo '<img src="' . BASE_URL . "/img/company/" . $job['id_user'] . ".jpg" . '" alt="company logo">';
 						} else {
 							echo '<img src="' . BASE_URL . "/img/company/" . "404.gif" . '" alt="company logo">';
-						}
-						?>
+						} ?>
                     </div>
                 </div>
                 <a href="#" class="button button-wide">Apply now</a>
