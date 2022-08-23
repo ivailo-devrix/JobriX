@@ -1,4 +1,12 @@
-<?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/header.php' );
+<?php
+require_once (dirname(__FILE__).'/includes/required-includes.php'); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
+
+//params for include template
+$meta_title = "Home Page | JobriX.tk";
+$page_name = 'home';
+
+//header template include
+require_once (dirname(__FILE__).'/includes/theme-compat/header.php');
 
 $search = '';
 if ( isset( $_GET['search'] ) ) {
@@ -12,9 +20,7 @@ if ( ! empty( $_GET['page'] ) ) {
 	$start_index = jobs_start_index_for_page( $page_num );
 }
 
-$jobs_list = get_jobs( $start_index, $search );
-
-?>
+$jobs_list = get_jobs( $start_index, $search ); ?>
 <section class="section-fullwidth section-jobs-preview">
     <div class="row">
         <ul class="tags-list">

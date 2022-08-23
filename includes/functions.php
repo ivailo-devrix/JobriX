@@ -9,7 +9,13 @@ function date_difference( $date_1, $difference_format = '%a' ) {
 
 	$interval = date_diff( $datetime2, $datetime1 );
 
-	return $interval->format( $difference_format );
+	$interval = $interval->format( $difference_format );
+
+	if ( $interval < 31 ) {
+		return "Posted " . $interval . " days ago";
+	} else {
+		return "Posted over 1 month ago";
+	}
 }
 
 

@@ -1,24 +1,18 @@
 <?php
-// server should keep session data for AT LEAST 1 hour
-ini_set('session.gc_maxlifetime', 3600);
-
-// each client should remember their session id for EXACTLY 1 hour
-session_set_cookie_params(3600);
-
-session_start();
-
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/db-connect.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
-?>
-
+//Checking for variables coming from a previous scope where the given template was loaded
+if (empty($meta_title)) {
+    $meta_title = '';
+}
+if (empty($page_name)) {
+    $page_name = '';
+}?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jobs</title>
+    <title><?php echo $meta_title; ?></title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <?php echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/master.css">'; ?>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -33,15 +27,30 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/includes/functions.php');
             </div>
             <nav class="site-header-navigation">
                 <ul class="menu">
-                    <li class="menu-item current-menu-item">
+                    <li class="menu-item <?php if (isset($page_name) && $page_name == 'home') { ?> current-menu-item <?php } ?>">
                         <a href="/index.php">Home</a>
                     </li>
-                    <li class="menu-item">
-                        <a href="/register.php">Register</a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="/login.php">Login</a>
-                    </li>
+                    <?php if (isset($_SESSION['id_user'])) { ?>
+                        <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) { ?>
+                            <li class="menu-item <?php if (isset($page_name) && $page_name == 'dashboard') { ?> current-menu-item <?php } ?> ">
+                                <a href="/dashboard.php">Dashboard</a>
+                            </li>
+                        <?php } ?>
+                        <li class="menu-item <?php if (isset($page_name) && $page_name == 'profile') { ?> current-menu-item <?php } ?>">
+                            <a href="/profile.php">My Profile</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/signout.php">Sign Out</a>
+                        </li>
+                    <?php } ?>
+                    <?php if (empty($_SESSION['id_user'])) { ?>
+                        <li class="menu-item <?php if (isset($page_name) && $page_name == 'register') { ?> current-menu-item <?php } ?>">
+                            <a href="/register.php">Register</a>
+                        </li>
+                        <li class="menu-item <?php if (isset($page_name) && $page_name == 'login') { ?> current-menu-item <?php } ?> ">
+                            <a href="/login.php">Login</a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </nav>
             <button class="menu-toggle">
