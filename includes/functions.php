@@ -65,3 +65,74 @@ function extract_valid_phone( $phone ) {
 		return false;
 	}
 }
+
+
+function pagination( $number_of_items, $page_url ) {
+	$las_page_num = ceil( ( $number_of_items / JOBS_PER_PAGE ) );
+
+	$var = <<<EOD
+
+<div class="jobs-pagination-wrapper">
+	<div class="nav-links">
+EOD;
+	echo $var;
+
+	for ( $i = 1; $i <= $las_page_num; $i ++ ) {
+		$active = '';
+		if ( ! empty( $_GET['page'] ) ) {
+			if ( $_GET['page'] == $i ) {
+				$active = ' current';
+			}
+		} elseif ( 1 == $i ) {
+			$active = ' current';
+		}
+		if ( ! empty( $_GET ) && empty( $_GET['page'] ) ) {
+			$concatenate = '&';
+		} else {
+			$concatenate = '?';
+		}
+		echo '<a class="page-numbers' . $active . '" href="' . $page_url . $concatenate . 'page=' . $i . '">' . $i . '</a>';
+	}
+
+	$var = <<<EOD
+
+</div>
+	</div>
+EOD;
+	echo $var;
+
+}
+
+
+function active_jobs() {
+	$sql = "SELECT COUNT(status)
+			FROM jobs
+			WHERE status = 'active'; ";
+
+	$result = db_sql_run( $sql );
+	$result = mysqli_fetch_assoc( $result );
+
+	return $result['COUNT(status)'];
+}
+
+
+function get_jobs( $start_index, $search ) {
+	if ( ! empty( $search ) ) {
+		$sql = "SELECT jobs.*, user.company_name, user.company_site 
+				FROM `jobs` JOIN user ON user.id_user = jobs.id_user 
+				WHERE ( CONVERT(`title` USING utf8) LIKE '%" . $search . "%' AND `status` = 'active') 
+				LIMIT 0,20";
+	} else {
+		$sql = "SELECT jobs.*, user.company_name, user.company_site 
+				FROM jobs JOIN user ON user.id_user = jobs.id_user 
+				WHERE status = 'active' 
+				LIMIT " . $start_index . "," . JOBS_PER_PAGE;
+	}
+
+	return db_sql_run( $sql );
+}
+
+
+function jobs_start_index_for_page( $page ) {
+	return ( $page * JOBS_PER_PAGE ) - JOBS_PER_PAGE;
+}
