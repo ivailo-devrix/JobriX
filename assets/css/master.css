@@ -1074,4 +1074,12 @@ ul {
   }
 }
 
+.correct {
+  color: #3c71fe;
+}
+
+.error{
+  color: #ff0000;
+}
+
 /*# sourceMappingURL=master.css.map */
