@@ -19,7 +19,9 @@ if ( ! empty( $_GET['page'] ) ) {
 	$start_index = jobs_start_index_for_page( $page_num );
 }
 
-$jobs_list = get_jobs( $start_index, $search ); ?>
+$status = "active";
+
+$jobs_list = get_jobs( $start_index, $status, $search ); ?>
 <section class="section-fullwidth section-jobs-preview">
     <div class="row">
         <ul class="tags-list">
@@ -71,27 +73,31 @@ $jobs_list = get_jobs( $start_index, $search ); ?>
                                         href="<?php echo BASE_URL . "/job-view.php?id=" . $row['id_jobs'] ?>"><?php echo $row['title']; ?></a>
                             </h2>
                             <div class="job-meta">
-                                <a class="meta-company"
-                                   href="<?php echo BASE_URL . "/job-view.php?id=" . $row['id_jobs'] ?>"><?php echo $row['company_name']; ?></a>
+	                            <?php if ( ! empty( $row['company_site'] ) ) { ?>
+                                    <a class="meta-company" href="
+                                       <?php echo 'http://' . $row['company_site'] ?>"><?php echo $row['company_name'] ?>
+                                    </a>
+	                            <?php } else {
+		                            echo $row['company_name'];
+	                            } ?>
                                 <span class="meta-date">
-                                        <?php if ( date_difference( $row['publication_date'] ) < 31 ) {
-	                                        echo "Posted " . date_difference( $row['publication_date'] ) . " days ago";
-                                        } else {
-	                                        echo "Posted over 1 month ago";
-                                        } ?>
+                                        <?php echo date_difference( $row['publication_date'] ); ?>
                                     </span>
                             </div>
                             <div class="job-details">
-                                <span class="job-location">
+                            <span class="job-location">
                                     <?php if ( ! empty( $row['jobs_location'] ) ) {
 	                                    echo "Job location: " . $row['jobs_location'];
                                     } else {
 	                                    echo "No location specified";
                                     } ?>
                                 </span>
-                                <span class="job-type">Job Type: Contract staff</span>
+                                <span class="job-type">Contract staff:</span>
+                                <span class="job-price"><?php echo $row['salary']; ?> лв.</span>
                             </div>
                         </div>
+
+
                         <div class="job-logo">
                             <div class="job-logo-box">
 								<?php $img_file_logo = "." . IMAGE_PATH . $row['id_user'] . ".jpg";
@@ -100,6 +106,8 @@ $jobs_list = get_jobs( $start_index, $search ); ?>
 								} ?>
                             </div>
                         </div>
+
+
                     </li>
                 </ul>
 			<?php }
