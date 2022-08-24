@@ -1,12 +1,6 @@
-<?php
-
-
-?>
-
 <?php if ( mysqli_num_rows( $jobs_list ) > 0 ) {
 	// output data of each row
 	while ( $row = mysqli_fetch_assoc( $jobs_list ) ) { ?>
-
         <ul class="jobs-listing">
             <li class="job-card">
                 <div class="job-primary">
@@ -39,13 +33,14 @@
                     <div class="job-secondary">
 						<?php if ( $row['status'] == 'new' ) { ?>
                             <div class="job-actions">
-                                <a href="#">Approve</a>
-                                <a href="#">Reject</a>
+                                <a href="<?php echo BASE_URL . '/jobs-actions.php' . '?id=' . $row['id_jobs'] . '&action=approve'; ?>">Approve</a>
+                                <a href="<?php echo BASE_URL . '/jobs-actions.php' . '?id=' . $row['id_jobs'] . '&action=reject'; ?>">Reject</a>
                             </div>
 						<?php } ?>
                         <div class="job-edit">
-                            <a href="#">View Submissions</a>
-                            <a href="#">Edit</a>
+                            <a href="<?php echo BASE_URL . '/submissions.php?id=' . $row['id_jobs']; ?>">
+                                View Submissions</a>
+                            <a href="<?php echo BASE_URL . '/actions-job.php?id=' . $row['id_jobs']; ?>">Edit</a>
                         </div>
                     </div>
 				<?php }
@@ -65,4 +60,4 @@
 	<?php }
 } else {
 	echo "0 results";
-}
+} ?>
