@@ -63,57 +63,7 @@ $jobs_list = get_jobs( $start_index, $status, $search ); ?>
                 </form>
             </div>
         </div>
-		<?php if ( mysqli_num_rows( $jobs_list ) > 0 ) {
-			// output data of each row
-			while ( $row = mysqli_fetch_assoc( $jobs_list ) ) { ?>
-                <ul class="jobs-listing">
-                    <li class="job-card">
-                        <div class="job-primary">
-                            <h2 class="job-title"><a
-                                        href="<?php echo BASE_URL . "/job-view.php?id=" . $row['id_jobs'] ?>"><?php echo $row['title']; ?></a>
-                            </h2>
-                            <div class="job-meta">
-	                            <?php if ( ! empty( $row['company_site'] ) ) { ?>
-                                    <a class="meta-company" href="
-                                       <?php echo 'http://' . $row['company_site'] ?>"><?php echo $row['company_name'] ?>
-                                    </a>
-	                            <?php } else {
-		                            echo $row['company_name'];
-	                            } ?>
-                                <span class="meta-date">
-                                        <?php echo date_difference( $row['publication_date'] ); ?>
-                                    </span>
-                            </div>
-                            <div class="job-details">
-                            <span class="job-location">
-                                    <?php if ( ! empty( $row['jobs_location'] ) ) {
-	                                    echo "Job location: " . $row['jobs_location'];
-                                    } else {
-	                                    echo "No location specified";
-                                    } ?>
-                                </span>
-                                <span class="job-type">Contract staff:</span>
-                                <span class="job-price"><?php echo $row['salary']; ?> лв.</span>
-                            </div>
-                        </div>
-
-
-                        <div class="job-logo">
-                            <div class="job-logo-box">
-								<?php $img_file_logo = "." . IMAGE_PATH . $row['id_user'] . ".jpg";
-								if ( file_exists( $img_file_logo ) ) {
-									echo '<img src="' . BASE_URL . IMAGE_PATH . $row['id_user'] . ".jpg" . '" alt="">';
-								} ?>
-                            </div>
-                        </div>
-
-
-                    </li>
-                </ul>
-			<?php }
-		} else {
-			echo "0 results";
-		}
+<?php require_once ($_SERVER['DOCUMENT_ROOT']. '/includes/theme-compat/jobs-listing.php');
 
 		$s_parameter = '';
 		if ( ! empty( $search ) ) {
