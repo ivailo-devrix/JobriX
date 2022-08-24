@@ -11,10 +11,10 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
                 <div class="primary-container">
                     <ul class="tabs-menu">
                         <li class="menu-item">
-                            <a href="#">Jobs</a>
+                            <a href="<?php echo BASE_URL . '/dashboard.php'; ?>">Jobs</a>
                         </li>
                         <li class="menu-item current-menu-item">
-                            <a href="#">Categories</a>
+                            <a href="<?php echo BASE_URL . '/category-dashboard.php'; ?>">Categories</a>
                         </li>
                     </ul>
                 </div>
