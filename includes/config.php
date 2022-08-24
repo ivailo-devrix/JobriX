@@ -10,5 +10,6 @@ define( 'BASE_URL', 'http://localhost' );
 define( 'IMAGE_PATH', '/img/company/' );
 define( 'DOC_UPLOAD_PATH', '/upload/' );
 define( 'JOBS_PER_PAGE', 5 );
+define( 'CATS_PER_PAGE', 7 );
 
 define( 'DEF_TIME_ZONE', 'Europe/Sofia' );

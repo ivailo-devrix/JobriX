@@ -140,3 +140,10 @@ function get_jobs( $start_index, $status, $search ) {
 function jobs_start_index_for_page( $page ) {
 	return ( $page * JOBS_PER_PAGE ) - JOBS_PER_PAGE;
 }
+
+
+function get_categories_list( $start_index ) {
+	$sql = "SELECT * FROM category LIMIT " . $start_index . "," . CATS_PER_PAGE;
+
+	return db_sql_run( $sql );
+}
