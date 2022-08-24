@@ -5,7 +5,24 @@ $meta_title = "Dashboard | Jobrix.tk";
 $page_name  = 'dashboard';
 
 //header template include
-require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
+require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' );
+
+$search = '';
+if ( isset( $_GET['search'] ) ) {
+	$search = mysqli_real_escape_string( open_db_conn(), $_GET['search'] );
+	$search = htmlspecialchars( $search );
+}
+
+$start_index = 0;
+if ( ! empty( $_GET['page'] ) ) {
+	$page_num    = mysqli_real_escape_string( open_db_conn(), $_GET['page'] );
+	$start_index = jobs_start_index_for_page( $page_num );
+}
+
+$status = "";
+$jobs_list = get_jobs( $start_index, $status, $search );
+
+?>
     <section class="section-fullwidth section-jobs-dashboard">
         <div class="row">
             <div class="jobs-dashboard-header flex-container centered-vertically justified-horizontally">
@@ -40,104 +57,46 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
                     </div>
                 </div>
             </div>
+
+	        <?php if ( mysqli_num_rows( $jobs_list ) > 0 ) {
+	        // output data of each row
+	        while ( $row = mysqli_fetch_assoc( $jobs_list ) ) { ?>
+
             <ul class="jobs-listing">
                 <li class="job-card">
                     <div class="job-primary">
-                        <h2 class="job-title"><a href="#">Front End Developer</a></h2>
+                        <h2 class="job-title"><a href="<?php echo BASE_URL . "/job-view.php?id=" . $row['id_jobs'] ?>"><?php echo $row['title']; ?></a></h2>
                         <div class="job-meta">
-                            <a class="meta-company" href="#">Company Awesome Ltd.</a>
+	                        <?php if ( ! empty( $row['company_site'] ) ) { ?>
+                                <a class="meta-company" href="
+                                       <?php echo 'http://' . $row['company_site'] ?>"><?php echo $row['company_name'] ?>
+                                </a>
+	                        <?php } else {
+		                        echo $row['company_name'];
+	                        } ?>
                             <span class="meta-date">Posted 14 days ago</span>
                         </div>
                         <div class="job-details">
-                            <span class="job-location">The Hague (The Netherlands)</span>
-                            <span class="job-type">Contract staff</span>
+                            <span class="job-location">
+                                    <?php if ( ! empty( $row['jobs_location'] ) ) {
+	                                    echo "Job location: " . $row['jobs_location'];
+                                    } else {
+	                                    echo "No location specified";
+                                    } ?>
+                                </span>
+                            <span class="job-type">Contract staff:</span>
+                            <span class="job-price"><?php echo $row['salary']; ?> лв.</span>
                         </div>
                     </div>
+
+
                     <div class="job-secondary">
+                        <?php if ($row['status'] == 'new'){ ?>
                         <div class="job-actions">
                             <a href="#">Approve</a>
                             <a href="#">Reject</a>
                         </div>
-                        <div class="job-edit">
-                            <a href="#">View Submissions</a>
-                            <a href="#">Edit</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="job-card">
-                    <div class="job-primary">
-                        <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                        <div class="job-meta">
-                            <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                            <span class="meta-date">Posted 14 days ago</span>
-                        </div>
-                        <div class="job-details">
-                            <span class="job-location">The Hague (The Netherlands)</span>
-                            <span class="job-type">Contract staff</span>
-                        </div>
-                    </div>
-                    <div class="job-secondary">
-                        <div class="job-actions">
-                            <a href="#">Approve</a>
-                            <a href="#">Reject</a>
-                        </div>
-                        <div class="job-edit">
-                            <a href="#">View Submissions</a>
-                            <a href="#">Edit</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="job-card">
-                    <div class="job-primary">
-                        <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                        <div class="job-meta">
-                            <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                            <span class="meta-date">Posted 14 days ago</span>
-                        </div>
-                        <div class="job-details">
-                            <span class="job-location">The Hague (The Netherlands)</span>
-                            <span class="job-type">Contract staff</span>
-                        </div>
-                    </div>
-                    <div class="job-secondary">
-                        <div class="job-edit">
-                            <a href="#">View Submissions</a>
-                            <a href="#">Edit</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="job-card">
-                    <div class="job-primary">
-                        <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                        <div class="job-meta">
-                            <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                            <span class="meta-date">Posted 14 days ago</span>
-                        </div>
-                        <div class="job-details">
-                            <span class="job-location">The Hague (The Netherlands)</span>
-                            <span class="job-type">Contract staff</span>
-                        </div>
-                    </div>
-                    <div class="job-secondary">
-                        <div class="job-edit">
-                            <a href="#">View Submissions</a>
-                            <a href="#">Edit</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="job-card">
-                    <div class="job-primary">
-                        <h2 class="job-title"><a href="#">Front End Developer</a></h2>
-                        <div class="job-meta">
-                            <a class="meta-company" href="#">Company Awesome Ltd.</a>
-                            <span class="meta-date">Posted 14 days ago</span>
-                        </div>
-                        <div class="job-details">
-                            <span class="job-location">The Hague (The Netherlands)</span>
-                            <span class="job-type">Contract staff</span>
-                        </div>
-                    </div>
-                    <div class="job-secondary">
+                        <?php } ?>
                         <div class="job-edit">
                             <a href="#">View Submissions</a>
                             <a href="#">Edit</a>
@@ -145,15 +104,18 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
                     </div>
                 </li>
             </ul>
-            <div class="jobs-pagination-wrapper">
-                <div class="nav-links">
-                    <a class="page-numbers current">1</a>
-                    <a class="page-numbers">2</a>
-                    <a class="page-numbers">3</a>
-                    <a class="page-numbers">4</a>
-                    <a class="page-numbers">5</a>
-                </div>
-            </div>
+	        <?php }
+	        } else {
+		        echo "0 results";
+	        }
+
+	        $s_parameter = '';
+	        if ( ! empty( $search ) ) {
+		        $s_parameter = '?search=' . $search;
+	        }
+	        $page_url    = 'dashboard.php' . $s_parameter;
+	        $active_jobs = active_jobs();
+	        pagination( $active_jobs, $page_url ); ?>
         </div>
     </section>
 <?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php' ); ?>
