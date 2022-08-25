@@ -143,7 +143,7 @@ function jobs_start_index_for_page( $page ) {
 
 
 function get_categories_list( $start_index ) {
-	$sql = "SELECT * FROM category LIMIT " . $start_index . "," . CATS_PER_PAGE;
+	$sql = "SELECT * FROM category ORDER BY name LIMIT " . $start_index . "," . CATS_PER_PAGE;
 
 	return db_sql_run( $sql );
 }

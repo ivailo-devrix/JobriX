@@ -13,6 +13,14 @@ if ( ! empty( $_GET['page'] ) ) {
 $categories_list = get_categories_list( $start_index );
 
 
+//check last input cat
+if ( ! empty( $_SESSION['input'] ) ) {
+	$input = $_SESSION['input'];
+} else {
+	$input = '';
+}
+
+
 //header template include
 require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
 <section class="section-fullwidth section-jobs-dashboard">
@@ -30,14 +38,22 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
             </div>
             <div class="secondary-container">
                 <div class="form-box category-form">
-                    <form>
+                    <form action="/action-cat.php" method="get" id="form1">
+						<?php if ( ! empty( $_SESSION['error'] ) ) {
+							echo '<p class="error">' . $_SESSION['error'] . '</p>';
+						} ?>
                         <div class="flex-container justified-vertically">
+
                             <div class="form-field-wrapper">
-                                <input type="text" placeholder="Enter Category Name..."/>
+                                <input type="text" name="cat-name" placeholder="Enter Category Name..." value="<?PHP echo $input ?>">
+                                <input type="hidden" name="action" value="new">
+
                             </div>
-                            <button class="button">
+
+                            <button type="submit" form="form1" value="Submit" class="button">
                                 Add New
                             </button>
+
                         </div>
                     </form>
                 </div>
@@ -53,7 +69,8 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
                         </div>
                         <div class="job-secondary centered-content">
                             <div class="job-actions">
-                                <a href="<?php echo BASE_URL . '/cats-actions.php' . '?id=' . $row['id_category'] . '&action=delete'; ?>" class="button button-inline">Delete</a>
+                                <a href="<?php echo BASE_URL . '/action-cat.php' . '?id=' . $row['id_category'] . '&action=delete'; ?>"
+                                   class="button button-inline">Delete</a>
                             </div>
                         </div>
                     </li>
