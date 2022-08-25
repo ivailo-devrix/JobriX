@@ -56,12 +56,12 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
                         <div class="form-field-wrapper">
                             <input type="password" name="password" autocomplete="current-password" placeholder="Password"/>
                         </div>
-                        <?php if (isset($password)) {
-                            if (!$correct_password) { ?>
-                                <p class="error" style="color: red;"><?php echo "Wrong password or Email"; ?></p>
-                            <?php }
-                        }
-                        ?>
+
+						<?php if ( isset( $password ) ) {
+							if ( ! $correct_password ) { ?>
+                                <p class="error"><?php echo "Wrong password or Email"; ?></p>
+							<?php }
+						} ?>
                         <button type="submit" class="button">
                             Login
                         </button>
