@@ -116,16 +116,20 @@ function active_jobs() {
 }
 
 
-function get_jobs( $start_index, $search ) {
+function get_jobs( $start_index, $status, $search ) {
 	if ( ! empty( $search ) ) {
 		$sql = "SELECT jobs.*, user.company_name, user.company_site 
 				FROM `jobs` JOIN user ON user.id_user = jobs.id_user 
 				WHERE ( CONVERT(`title` USING utf8) LIKE '%" . $search . "%' AND `status` = 'active') 
 				LIMIT 0,20";
-	} else {
+	} elseif ( $status == 'active' ) {
 		$sql = "SELECT jobs.*, user.company_name, user.company_site 
 				FROM jobs JOIN user ON user.id_user = jobs.id_user 
 				WHERE status = 'active' 
+				LIMIT " . $start_index . "," . JOBS_PER_PAGE;
+	} elseif ( empty( $status ) ) {
+		$sql = "SELECT jobs.*, user.company_name, user.company_site 
+				FROM jobs JOIN user ON user.id_user = jobs.id_user 
 				LIMIT " . $start_index . "," . JOBS_PER_PAGE;
 	}
 
