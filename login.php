@@ -56,7 +56,8 @@ if ( ! empty( $_POST['email'] ) && ! empty( $_POST['password'] ) ) {
                         </div>
 						<?php if ( isset( $password ) ) {
 							if ( ! $correct_password ) { ?>
-                                <p class="error" style="color: red;"><?php echo "Wrong password or Email"; ?></p>
+                                <p class="error"><?php echo "Wrong password or Email"; ?></p>
+
 							<?php }
 						} ?>
                         <button type="submit" class="button">
