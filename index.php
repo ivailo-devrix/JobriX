@@ -1,5 +1,6 @@
 <?php require_once( dirname( __FILE__ ) . '/includes/required-includes.php' ); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
 
+
 //params for include template
 $meta_title = "Home Page | JobriX.tk";
 $page_name  = 'home';
@@ -21,7 +22,13 @@ if ( ! empty( $_GET['page'] ) ) {
 
 $status = "active";
 
-$jobs_list = get_jobs( $start_index, $status, $search ); ?>
+// get SQL result
+$jobs_list = get_jobs( $start_index, $status, $search );
+
+// get active result  - number match for pagination
+$active_jobs = count_jobs( $status, $search );
+
+?>
 <section class="section-fullwidth section-jobs-preview">
     <div class="row">
         <ul class="tags-list">
@@ -63,15 +70,9 @@ $jobs_list = get_jobs( $start_index, $status, $search ); ?>
                 </form>
             </div>
         </div>
-<?php require_once ($_SERVER['DOCUMENT_ROOT']. '/includes/theme-compat/jobs-listing.php');
+		<?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/jobs-listing.php' );
 
-		$s_parameter = '';
-		if ( ! empty( $search ) ) {
-			$s_parameter = '?search=' . $search;
-		}
-		$page_url    = 'index.php' . $s_parameter;
-		$active_jobs = active_jobs();
-		pagination( $active_jobs, $page_url ); ?>
+		pagination( $active_jobs, JOBS_PER_PAGE ); ?>
     </div>
 </section>
 <?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php' ); ?>

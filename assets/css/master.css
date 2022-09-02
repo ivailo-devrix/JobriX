@@ -1008,7 +1008,7 @@ ul {
 }
 .job-single .job-secondary {
   position: sticky;
-  top: 7em;
+  top: 1em;
   height: fit-content;
   flex: 0 0 14em;
   margin-left: var(--spacing-l);
@@ -1080,6 +1080,16 @@ ul {
 
 .error{
   color: #ff0000;
+}
+
+.errorg {
+  margin-bottom: var(--spacing-s);
+  padding: 1.5em;
+  list-style: none;
+  background: white;
+  border: 1px solid var(--color-separator);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--shadow-default);
 }
 
 /*# sourceMappingURL=master.css.map */

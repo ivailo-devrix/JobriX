@@ -2,3 +2,8 @@
 .work/
 img/company/
 test.php
+
+/vendor/
+composer.json
+composer.lock
+composer.phar

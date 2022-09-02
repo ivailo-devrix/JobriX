@@ -3,4 +3,7 @@
 session_unset();
 session_destroy();
 
+setcookie( 'validator', '', '' );
+setcookie( 'user_id', '', '' );
+
 header( 'Location: ' . BASE_URL );

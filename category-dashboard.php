@@ -4,22 +4,39 @@
 $meta_title = "Category Dashboard | Jobrix.tk";
 
 
-$start_index = 0;
-if ( ! empty( $_GET['page'] ) ) {
-	$page_num    = mysqli_real_escape_string( open_db_conn(), $_GET['page'] );
-	$start_index = jobs_start_index_for_page( $page_num );
+//check is longed in
+if ( empty( $_SESSION['id_user'] ) ) {
+	//redirect to home page
+	header( 'Location: ' . BASE_URL );
 }
+
+if ( empty( $_SESSION['is_admin'] ) ) {
+	//redirect to home page
+	header( 'Location: ' . BASE_URL );
+}
+
+
+//calculate start page listing index
+if ( empty( $_GET['page'] ) ) {
+	$start_index = 0;
+} else {
+	if ( $_GET['page'] === '1' ) {
+		$start_index = 0;
+	} else {
+		$start_index = ( intval( $_GET['page'] ) - 1 ) * CATS_PER_PAGE;
+	}
+}
+
 
 $categories_list = get_categories_list( $start_index );
 
 
-//check last input cat
+//store last input cat if exist
 if ( ! empty( $_SESSION['input'] ) ) {
 	$input = $_SESSION['input'];
 } else {
 	$input = '';
 }
-
 
 //header template include
 require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
@@ -45,7 +62,8 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
                         <div class="flex-container justified-vertically">
 
                             <div class="form-field-wrapper">
-                                <input type="text" name="cat-name" placeholder="Enter Category Name..." value="<?PHP echo $input ?>">
+                                <input type="text" name="cat-name" placeholder="Enter Category Name..."
+                                       value="<?PHP echo $input ?>">
                                 <input type="hidden" name="action" value="new">
 
                             </div>
@@ -83,9 +101,11 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
 		if ( ! empty( $search ) ) {
 			$s_parameter = '?search=' . $search;
 		}
-		$page_url    = 'category-dashboard.php' . $s_parameter;
-		$active_jobs = active_jobs();
-		pagination( $active_jobs, $page_url ); ?>
+		$page_url         = 'category-dashboard.php' . $s_parameter;
+		$num_article      = count_cat();
+		$article_per_page = CATS_PER_PAGE;
+		pagination($num_article, $article_per_page);
+        ?>
     </div>
 </section>
 <?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php' ); ?>

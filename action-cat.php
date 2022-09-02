@@ -3,8 +3,8 @@ require_once( dirname( __FILE__ ) . '/includes/required-includes.php' ); //Neces
 
 //Redirect to homepage if id missing or no admin privileges.
 if ( empty( $_SESSION['user_id'] ) || ! ( $_SESSION['is_admin'] ) ) {
-	header( 'Location: ' . BASE_URL );
-	exit();
+	//header( 'Location: ' . BASE_URL );
+	//exit();
 }
 
 //Redirect to homepage if missing params.
@@ -20,7 +20,7 @@ $_SESSION['input'] = '';
 
 switch ( $action ) {
 	case 'new':
-		if ( empty( $_GET['cat-name'] ) ) { //Redirect to homepage if missing params.
+		if ( empty( $_GET['cat-name'] ) ) { // Redirect to homepage if missing params.
 			header( 'Location: ' . BASE_URL );
 			exit();
 		}
@@ -43,13 +43,18 @@ switch ( $action ) {
 		//if everything above is fulfilled and all data is validated, the request will be fulfilled.
 		$sql = "INSERT INTO category (name) VALUES (?)";
 		db_sql_protect( $sql, $params );
+
+		//clear session variables
+		unset( $_SESSION['error'] );
+		unset( $_SESSION['input'] );
+
 		//return user to category-dashboard.php
 		header( 'Location: ' . BASE_URL . '/category-dashboard.php' );
 		exit();
 
 	case 'delete':
 		$id     = mysqli_real_escape_string( open_db_conn(), $_GET['id'] );
-		$sql    = "SELECT * FROM category_job WHERE id_category = ?";
+		$sql    = 'SELECT * FROM category_job WHERE id_category = ?';
 		$params = array( $id );
 		$result = db_sql_protect( $sql, $params );
 		if ( mysqli_num_rows( $result ) > 0 ) {
@@ -58,10 +63,10 @@ switch ( $action ) {
 			exit();
 		}
 
-		$sql = "DELETE FROM category WHERE id_category = ?";
+		$sql = 'DELETE FROM category WHERE id_category = ?';
 		db_sql_protect( $sql, $params );
 		header( 'Location: ' . BASE_URL . '/category-dashboard.php' );
-		exit();
+		exit( $status = '' );
 
 	default:
 		header( 'Location: ' . BASE_URL );

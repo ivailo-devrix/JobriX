@@ -4,6 +4,9 @@
 $meta_title = "Registration Forms | Jobrix.tk";
 $page_name  = "register";
 
+//kicking the user if logged in.
+kick_if_logged_in();
+
 //header template include
 require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' );
 

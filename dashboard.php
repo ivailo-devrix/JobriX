@@ -13,14 +13,23 @@ if ( isset( $_GET['search'] ) ) {
 	$search = htmlspecialchars( $search );
 }
 
-$start_index = 0;
-if ( ! empty( $_GET['page'] ) ) {
-	$page_num    = mysqli_real_escape_string( open_db_conn(), $_GET['page'] );
-	$start_index = jobs_start_index_for_page( $page_num );
+//calculate start page listing index
+if ( empty( $_GET['page'] ) ) {
+	$start_index = 0;
+} else {
+	if ( $_GET['page'] == '1' ) {
+		$start_index = 0;
+	} else {
+		$start_index = ( intval( $_GET['page'] ) - 1 ) * JOBS_PER_PAGE;
+	}
 }
 
-$status    = "";
-$jobs_list = get_jobs( $start_index, $status, $search );
+$id_user = $_SESSION['id_user'];
+$status  = "";
+if ( ! empty( $_SESSION['is_admin'] ) ) {
+	$id_user = '';
+}
+$jobs_list = get_jobs( $start_index, $status, $search, $id_user );
 
 ?>
 <section class="section-fullwidth section-jobs-dashboard">
@@ -31,9 +40,16 @@ $jobs_list = get_jobs( $start_index, $status, $search );
                     <li class="menu-item current-menu-item">
                         <a href="<?php echo BASE_URL . '/dashboard.php'; ?>">Jobs</a>
                     </li>
-                    <li class="menu-item">
-                        <a href="<?php echo BASE_URL . '/category-dashboard.php'; ?>">Categories</a>
-                    </li>
+					<?php if ( ! empty( $_SESSION['is_admin'] ) ): ?>
+                        <li class="menu-item">
+                            <a href="<?php echo BASE_URL . '/category-dashboard.php'; ?>">Categories</a>
+                        </li>
+					<?php endif; ?>
+					<?php if ( empty( $_SESSION['is_admin'] ) ): ?>
+                        <li class="menu-item">
+                            <a href="<?php echo BASE_URL.'/actions-job.php'; ?>">Create New Job</a>
+                        </li>
+					<?php endif; ?>
                 </ul>
             </div>
             <div class="secondary-container">
@@ -59,13 +75,10 @@ $jobs_list = get_jobs( $start_index, $status, $search );
         </div>
 		<?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/jobs-listing.php' );
 
-		$s_parameter = '';
-		if ( ! empty( $search ) ) {
-			$s_parameter = '?search=' . $search;
-		}
-		$page_url    = 'dashboard.php' . $s_parameter;
-		$active_jobs = active_jobs();
-		pagination( $active_jobs, $page_url ); ?>
+
+		$number_article   = count_jobs( $status, $search, $id_user );
+		$article_per_page = JOBS_PER_PAGE;
+		pagination( $number_article, $article_per_page ); ?>
     </div>
 </section>
 <?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php' ); ?>

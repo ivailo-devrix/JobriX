@@ -2,7 +2,7 @@
 require_once( dirname( __FILE__ ) . '/includes/required-includes.php' ); //Necessary file containing: The necessary custom functions, Config file constants, DB connection
 
 //Redirect to homepage if id missing or no admin privileges.
-if ( empty( $_SESSION['user_id'] ) || ! ( $_SESSION['is_admin'] ) ) {
+if ( empty( $_SESSION['is_admin'] ) ) {
 	header( 'Location: ' . BASE_URL );
 	exit();
 }

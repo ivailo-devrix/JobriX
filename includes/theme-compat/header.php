@@ -1,11 +1,15 @@
 <?php
+login_if_valid_cookies();
+
 //Checking for variables coming from a previous scope where the given template was loaded
 if ( empty( $meta_title ) ) {
 	$meta_title = '';
 }
 if ( empty( $page_name ) ) {
 	$page_name = '';
-} ?>
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +35,7 @@ if ( empty( $page_name ) ) {
                         <a href="/index.php">Home</a>
                     </li>
 					<?php if ( isset( $_SESSION['id_user'] ) ) { ?>
-						<?php if ( isset( $_SESSION['is_admin'] ) && $_SESSION['is_admin'] ) { ?>
+						<?php if ( ! empty( $_SESSION['is_admin'] ) || ! empty( $_SESSION['is_company'] ) ) { ?>
                             <li class="menu-item <?php if ( isset( $page_name ) && $page_name == 'dashboard' ) { ?> current-menu-item <?php } ?> ">
                                 <a href="/dashboard.php">Dashboard</a>
                             </li>

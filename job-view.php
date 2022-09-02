@@ -8,7 +8,7 @@ if ( ! isset( $_GET['id'] ) || ! is_numeric( $_GET['id'] ) ) {
 }
 
 $jobs_id = mysqli_real_escape_string( open_db_conn(), $_GET['id'] );
-$sql     = "SELECT jobs.*, user.company_name, user.company_site FROM jobs JOIN user ON user.id_user = jobs.id_user WHERE id_jobs = '$jobs_id'";
+$sql     = "SELECT jobs.*, user.* FROM jobs JOIN user ON user.id_user = jobs.id_user WHERE id_jobs = '$jobs_id'";
 $result  = db_sql_run( $sql );
 
 //redirect to the home page if there is no job matching such id in the database
@@ -29,6 +29,7 @@ $job = array(
 	'salary'              => '',
 	'description'         => '',
 	'id_user'             => '',
+	'id_jobs'             => '',
 );
 
 foreach ( $row as $key => $value ) {
@@ -40,6 +41,11 @@ foreach ( $row as $key => $value ) {
 
 //params for include template
 $meta_title = $job['title'] . " | Jobrix.tk";
+
+
+//get relate jobs
+$jobs_list = query_relate_jobs( $job['id_jobs'] );
+
 
 //header template include
 require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
@@ -82,7 +88,17 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
                     </div>
                 </div>
             </div>
+
             <aside class="job-secondary">
+
+				<?php
+				if ( ! empty( $job['company_description'] ) ) { ?>
+                    <div class="errorg">
+                        <strong>Company description:</strong>
+						<?php echo $job['company_description']; ?>
+                    </div>
+				<?php } ?>
+
                 <div class="job-logo">
                     <div class="job-logo-box">
 						<?php $img_file_logo = "./img/company/" . $job['id_user'] . ".jpg";
@@ -93,7 +109,21 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
 						} ?>
                     </div>
                 </div>
-                <a href="#" class="button button-wide">Apply now</a>
+				<?php if ( ! empty( $_SESSION['id_user'] && ! isset( $_SESSION['is_admin'] ) ) ) {
+
+					?>
+
+					<?php if ( $job['id_user'] != $_SESSION['id_user'] ) { ?>
+                        <a href="<?php echo BASE_URL . '/apply-submission.php?job-id=' . $job['id_jobs'] ?>"
+                           class="button button-wide">Apply now</a>
+					<?php } ?>
+
+				<?php } ?>
+				<?php if ( ! empty( $_SESSION['is_admin'] ) ) { ?>
+                    <a href="<?php echo BASE_URL . '/actions-job.php?id-job=' . $job['id_jobs'] ?>"
+                       class="button button-wide">Edit Job</a>
+				<?php } ?>
+
 				<?php if ( ! empty( $job['company_site'] ) ) { ?>
                     <a href="<?php echo "http://" . $job['company_site']; ?>"
                        target="_blank"><?php echo $job['company_site']; ?>
@@ -103,4 +133,16 @@ require_once( dirname( __FILE__ ) . '/includes/theme-compat/header.php' ); ?>
         </div>
     </div>
 </section>
+
+<?php if ( ! empty( $jobs_list ) ) { ?>
+
+    <section class="section-fullwidth">
+        <div class="row">
+            <h2 class="section-heading">Other related jobs:</h2>
+			<?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/jobs-listing.php' ); ?>
+        </div>
+    </section>
+<?php } ?>
+
+
 <?php require_once( $_SERVER['DOCUMENT_ROOT'] . '/includes/theme-compat/footer.php' ); ?>
