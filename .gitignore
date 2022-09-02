@@ -7,3 +7,5 @@ test.php
 composer.json
 composer.lock
 composer.phar
+docs/
+tmp/
